@@ -1,0 +1,26 @@
+{
+    "name": "iboot/cms",
+    "description": "This is plugin CMS for Laravel framework",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "IBoot\\CMS\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "IBoot\\CMS\\Providers\\CMSServiceProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "ninhnk",
+            "email": "ninhnk@icitech.net"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
