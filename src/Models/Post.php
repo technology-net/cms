@@ -1,6 +1,5 @@
 <?php
 
-
 namespace IBoot\CMS\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;

@@ -6,7 +6,10 @@
     "autoload": {
         "psr-4": {
             "IBoot\\CMS\\": "src/"
-        }
+        },
+        "files": [
+            "helpers.php"
+        ]
     },
     "extra": {
         "laravel": {
