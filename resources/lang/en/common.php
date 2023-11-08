@@ -2,6 +2,7 @@
 
 return [
     'name' => 'Name',
+    'title' => 'Title',
     'slug' => 'Slug',
     'create' => 'Create',
     'edit' => 'Edit',
@@ -19,4 +20,11 @@ return [
     'note' => ':field :field2 for the system.',
     'choose' => '-- Please choose --',
     'root' => 'Root',
+    'status' => 'Status',
+    'tags' => 'Tags',
+    'draft' => 'Draft',
+    'pending' => 'Pending',
+    'published' => 'Published',
+    'image' => 'Image',
+    'choose_img' => 'Choose image',
 ];

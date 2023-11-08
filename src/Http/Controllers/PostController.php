@@ -4,7 +4,11 @@ namespace IBoot\CMS\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use IBoot\CMS\Models\Post;
+use IBoot\Core\App\Exceptions\ServerErrorException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
@@ -21,23 +25,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
-    }
+        $categories = getCategories(listCategories());
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Post $post)
-    {
-        //
+        return view('plugin/cms::posts.form', compact('categories'));
     }
 
     /**
@@ -51,9 +41,19 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $id)
     {
-        //
+//        DB::beginTransaction();
+//        try {
+//            $this->category->createOrUpdateCategories($id, $request->all());
+//            DB::commit();
+//
+//            return responseSuccess(null, trans('plugin/cms::messages.save_success'));
+//        } catch (Exception $e) {
+//            DB::rollback();
+//            Log::error($e->getMessage(), ['file' => __FILE__, 'line' => __LINE__]);
+//            throw new ServerErrorException(null, trans('plugin/cms::messages.action_error'));
+//        }
     }
 
     /**
@@ -62,5 +62,47 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse
+     * @throws ServerErrorException
+     */
+    public function editable(Request $request, $id): JsonResponse
+    {
+//        DB::beginTransaction();
+//        try {
+//            $this->category->createOrUpdateCategories($id, $request->all());
+//            DB::commit();
+//
+//            return responseSuccess(null, trans('plugin/cms::messages.save_success'));
+//        } catch (Exception $e) {
+//            DB::rollback();
+//            Log::error($e->getMessage(), ['file' => __FILE__, 'line' => __LINE__]);
+//            throw new ServerErrorException(null, trans('plugin/cms::messages.action_error'));
+//        }
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ServerErrorException
+     */
+    public function deleteAll(Request $request): JsonResponse
+    {
+//        $ids = $request->ids;
+//        DB::beginTransaction();
+//        try {
+//            $this->category->deleteAllById($ids);
+//            DB::commit();
+//
+//            return responseSuccess(null, trans('plugin/cms::messages.delete_success'));
+//        } catch (Exception $e) {
+//            DB::rollback();
+//            Log::error($e->getMessage(), ['file' => __FILE__, 'line' => __LINE__]);
+//            throw new ServerErrorException(null, trans('plugin/cms::messages.action_error'));
+//        }
     }
 }

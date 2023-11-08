@@ -44,3 +44,16 @@ if (!function_exists('getCategories')) {
         return $result;
     }
 }
+/**
+ * @return array{0: mixed, 1: mixed, 2: mixed}
+ */
+if (!function_exists('postStatus')) {
+    function postStatus(): array
+    {
+        return [
+            '0' => trans('plugin/cms::common.draft'),
+            '1' => trans('plugin/cms::common.pending'),
+            '2' => trans('plugin/cms::common.published'),
+        ];
+    }
+}

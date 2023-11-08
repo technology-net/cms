@@ -96,5 +96,5 @@
         const ROUTE_IDX = "{!! route('categories.index') !!}"
     </script>
     <script type="text/javascript" src="{{ mix('cms/js/slug.js') }}"></script>
-    <script type="text/javascript" src="{{ mix('cms/js/categories/form.js') }}"></script>
+    <script type="text/javascript" src="{{ mix('cms/js/create-common.js') }}"></script>
 @endsection
