@@ -1,10 +1,14 @@
 <div class="table-responsive table-has-actions table-has-filter ">
-    <div id="" class="form-inline no-footer">
-        <div class="dt-buttons btn-group flex-wrap float-end">
+    <div class="form-inline no-footer">
+        <div class="dt-buttons btn-group">
             <a href="{{ route('categories.create') }}" class="btn btn-success">
                 <span class="mdi mdi-plus"></span>
                 {{ trans('plugin/cms::common.create') }}
             </a>
+            <button class="btn btn-sm bg-danger delete-all d-none ml-2" title="Delete" role="button" data-url="{{ route('categories.deleteAll') }}">
+                <span class="mdi mdi-trash-can-outline"></span>
+                {{ trans('plugin/cms::common.delete') }}
+            </button>
         </div>
     </div>
     <table class="table table-striped table-secondary table-hover vertical-middle bg-white mt-3" role="grid" aria-describedby="">
@@ -12,7 +16,7 @@
             <tr role="row">
                 <th class="text-left no-column-visibility sorting_disabled user-checkbox" aria-label="Check box">
                     <label class="user-checkbox-label">
-                        <input class="table-check-all" data-set=".dataTable .checkboxes" name="" type="checkbox">
+                        <input class="input-check-all" data-set=".dataTable .checkboxes" type="checkbox">
                     </label>
                 </th>
                 <th width="20%" title="{{ trans('plugin/cms::common.name') }}" class="text-left sorting_desc" tabindex="0"
@@ -43,7 +47,7 @@
                             <div class="text-left">
                                 <div class="checkbox checkbox-primary table-checkbox">
                                     <label class="user-checkbox-label">
-                                        <input class="checkboxes" name="id[]" type="checkbox" value="{{ $item->id }}">
+                                        <input class="checkboxes" type="checkbox" value="{{ $item->id }}">
                                     </label>
                                 </div>
                             </div>
@@ -70,7 +74,7 @@
                                     <path d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z"/>
                                 </svg>
                             </a>
-                            <button class="btn btn-sm bg-danger btn-delete" title="Delete" role="button" data-url="">
+                            <button class="btn btn-sm bg-danger btn-delete" title="Delete" role="button" data-url="{{ route('categories.destroy', $item->id) }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="28px" width="20px" viewBox="2 2 20 20">
                                     <title>{{ trans('plugin/cms::common.delete') }}</title>
                                     <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/>

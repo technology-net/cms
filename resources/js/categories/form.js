@@ -13,12 +13,9 @@ $(document).ready(function () {
       processData: false,
       success: function (response) {
         if (response.success) {
-          toastr.success(response.message)
-          setTimeout(() => {
-            window.location.href = ROUTE_IDX
-          }, 2000)
+          showNotify(response.message, 'success');
         } else {
-          toastr.error(response.message)
+          showNotify(response.message, 'error');
         }
       },
       error: function (_xhr) {
@@ -29,7 +26,7 @@ $(document).ready(function () {
           }
         }
         if (_xhr.status === 500) {
-          toastr.error(_xhr.responseJSON.message);
+          showNotify(_xhr.responseJSON.message, 'error');
         }
       }
     })

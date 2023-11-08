@@ -4,7 +4,6 @@ namespace IBoot\CMS\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use IBoot\CMS\Http\Requests\FormCategoryRequest;
-use IBoot\CMS\Models\Category;
 use IBoot\CMS\Services\CategoryService;
 use IBoot\Core\App\Exceptions\ServerErrorException;
 use Illuminate\Http\Request;
@@ -74,11 +73,23 @@ class CategoryController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @param string $id
+     * @return JsonResponse
+     * @throws ServerErrorException
      */
-    public function destroy(Category $post)
+    public function destroy(string $id): JsonResponse
     {
-        //
+        DB::beginTransaction();
+        try {
+            $this->category->deleteById($id);
+            DB::commit();
+
+            return responseSuccess(null, trans('plugin/cms::messages.delete_success'));
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error($e->getMessage(), ['file' => __FILE__, 'line' => __LINE__]);
+            throw new ServerErrorException(null, trans('plugin/cms::messages.action_error'));
+        }
     }
 
     /**
@@ -95,6 +106,27 @@ class CategoryController extends Controller
             DB::commit();
 
             return responseSuccess(null, trans('plugin/cms::messages.save_success'));
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error($e->getMessage(), ['file' => __FILE__, 'line' => __LINE__]);
+            throw new ServerErrorException(null, trans('plugin/cms::messages.action_error'));
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ServerErrorException
+     */
+    public function deleteAll(Request $request): JsonResponse
+    {
+        $ids = $request->ids;
+        DB::beginTransaction();
+        try {
+            $this->category->deleteAllById($ids);
+            DB::commit();
+
+            return responseSuccess(null, trans('plugin/cms::messages.delete_success'));
         } catch (Exception $e) {
             DB::rollback();
             Log::error($e->getMessage(), ['file' => __FILE__, 'line' => __LINE__]);

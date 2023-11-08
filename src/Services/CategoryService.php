@@ -59,6 +59,24 @@ class CategoryService
         );
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function deleteById($id): mixed
+    {
+        return Category::query()->where('id', $id)->delete();
+    }
+
+    /**
+     * @param $ids
+     * @return mixed
+     */
+    public function deleteAllById($ids): mixed
+    {
+        return Category::deleteByIds($ids);
+    }
+
     private function findById($id): Model|Collection|Builder|array|null
     {
         return Category::query()->findOrFail($id);

@@ -26,7 +26,5 @@
 @endsection
 @section('js')
     <script type="text/javascript">
-        {{--const ROUTE_IDX = "{!! route('settings.categories.index') !!}"--}}
     </script>
-{{--    <script type="text/javascript" src="{{ mix('core/js/system-settings.js') }}" defer></script>--}}
 @endsection
