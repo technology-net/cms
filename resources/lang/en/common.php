@@ -26,5 +26,6 @@ return [
     'pending' => 'Pending',
     'published' => 'Published',
     'image' => 'Image',
+    'thumbnail' => 'Thumbnail',
     'choose_img' => 'Choose image',
 ];

@@ -31,86 +31,96 @@
                 @method('PUT')
                 <input type="hidden" name="id" value="{{ $post->id ?? 0 }}">
                 <div class="border-white bg-white p-5">
-                    <div class="container">
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label for="{{ trans('plugin/cms::common.title') }}" class="control-label text-black" aria-required="true">
-                                    {{ trans('plugin/cms::common.title') }}
-                                    <strong class="text-required text-danger">*</strong>
-                                </label>
-                                <input class="form-control input-in" autocomplete="off" label="{{ trans('plugin/cms::common.title') }}" validate="true"
-                                       validate-pattern="required" name="title" type="text" value="{{ old('title', $post->title ?? null) }}">
-                                <div id="error_title"></div>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="{{ trans('plugin/cms::common.slug') }}" class="control-label required text-black" aria-required="true">
-                                    {{ trans('plugin/cms::common.slug') }}
-                                    <strong class="text-required text-danger">*</strong>
-                                </label>
-                                <input class="form-control input-out" autocomplete="off" label="{{ trans('plugin/cms::common.slug') }}" validate="true"
-                                       validate-pattern="required" name="slug" type="text" value="{{ old('slug', $post->slug ?? null) }}">
-                                <div id="error_slug"></div>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label for="{{ trans('plugin/cms::cms.post.short_content') }}" class="control-label required text-black" aria-required="true">
-                                    {{ trans('plugin/cms::cms.post.short_content') }}
-                                    <strong class="text-required text-danger">*</strong>
-                                </label>
-                                <textarea class="form-control" name="short_content" rows="4" label="{{ trans('plugin/cms::cms.post.short_content') }}" validate="true" validate-pattern="required">{{ old('key', $systemSetting->value ?? null) }}</textarea>
-                                <div id="error_short_content"></div>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label for="{{ trans('plugin/cms::cms.post.content') }}" class="control-label required text-black" aria-required="true">
-                                    {{ trans('plugin/cms::cms.post.content') }}
-                                    <strong class="text-required text-danger">*</strong>
-                                </label>
-                                <textarea id="editor" class="form-control" name="content" rows="4" label="{{ trans('plugin/cms::cms.post.content') }}" validate="true" validate-pattern="required">{{ old('key', $systemSetting->value ?? null) }}</textarea>
-                                <div id="error_content"></div>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="{{ trans('plugin/cms::cms.post.category') }}" class="control-label required text-black" aria-required="true">
-                                    {{ trans('plugin/cms::cms.post.category') }}
-                                </label>
-                                <select class="form-control" name="category_id">
-                                    <option value="">{{ trans('plugin/cms::common.choose') }}</option>
-                                    @foreach ($categories as $categoryId => $name)
-                                        <option value="{{ $categoryId }}">
-                                            {{ $name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="{{ trans('plugin/cms::common.status') }}" class="control-label required text-black" aria-required="true">
-                                    {{ trans('plugin/cms::common.status') }}
-                                </label>
-                                <select class="form-control" name="status">
-                                    @foreach(postStatus() as $status_id => $name)
-                                        <option value="{{ $status_id }}">{{ $name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="{{ trans('plugin/cms::common.image') }}" class="control-label required text-black" aria-required="true">
-                                    {{ trans('plugin/cms::common.image') }}
-                                </label>
-                                <div class="preview-image-wrapper">
-                                    <img width="100%" src="{{ asset('cms/images/image-default.png') }}" alt="image-default">
-                                    <i class="mdi mdi-close-circle-outline remove-preview"></i>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label for="{{ trans('plugin/cms::common.title') }}" class="control-label text-black" aria-required="true">
+                                        {{ trans('plugin/cms::common.title') }}
+                                        <strong class="text-required text-danger">*</strong>
+                                    </label>
+                                    <input class="form-control input-in" autocomplete="off" label="{{ trans('plugin/cms::common.title') }}" validate="true"
+                                           validate-pattern="required" name="title" type="text" value="{{ old('title', $post->title ?? null) }}">
+                                    <div id="error_title"></div>
                                 </div>
-                                <a href="javascript:void(0)" id="openMedia">{{ trans('plugin/cms::common.choose_img') }}</a>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label for="{{ trans('plugin/cms::common.tags') }}" class="control-label required text-black" aria-required="true">
-                                    {{ trans('plugin/cms::common.tags') }}
-                                </label>
-                                <select class="form-control" name="tag_id">
-                                    <option value="">{{ trans('plugin/cms::common.choose') }}</option>
-                                </select>
+                                <div class="form-group col-md-12">
+                                    <label for="{{ trans('plugin/cms::common.slug') }}" class="control-label required text-black" aria-required="true">
+                                        {{ trans('plugin/cms::common.slug') }}
+                                        <strong class="text-required text-danger">*</strong>
+                                    </label>
+                                    <input class="form-control input-out" autocomplete="off" label="{{ trans('plugin/cms::common.slug') }}" validate="true"
+                                           validate-pattern="required" name="slug" type="text" value="{{ old('slug', $post->slug ?? null) }}">
+                                    <div id="error_slug"></div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="{{ trans('plugin/cms::cms.post.short_content') }}" class="control-label required text-black" aria-required="true">
+                                        {{ trans('plugin/cms::cms.post.short_content') }}
+                                        <strong class="text-required text-danger">*</strong>
+                                    </label>
+                                    <textarea class="form-control" name="short_content" rows="4" label="{{ trans('plugin/cms::cms.post.short_content') }}" validate="true" validate-pattern="required">{{ old('key', $systemSetting->value ?? null) }}</textarea>
+                                    <div id="error_short_content"></div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="{{ trans('plugin/cms::cms.post.content') }}" class="control-label required text-black" aria-required="true">
+                                        {{ trans('plugin/cms::cms.post.content') }}
+                                        <strong class="text-required text-danger">*</strong>
+                                    </label>
+                                    <textarea id="editor" class="form-control" name="content" rows="4" label="{{ trans('plugin/cms::cms.post.content') }}" validate="true" validate-pattern="required">{{ old('key', $systemSetting->value ?? null) }}</textarea>
+                                    <div id="error_content"></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="clearfix"></div>
+                        <div class="col-md-3">
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label for="{{ trans('plugin/cms::cms.post.category') }}" class="control-label required text-black" aria-required="true">
+                                        {{ trans('plugin/cms::cms.post.category') }}
+                                    </label>
+                                    <select class="form-control" name="category_id">
+                                        <option value="">{{ trans('plugin/cms::common.choose') }}</option>
+                                        @foreach ($categories as $categoryId => $name)
+                                            <option value="{{ $categoryId }}">
+                                                {{ $name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="{{ trans('plugin/cms::common.status') }}" class="control-label required text-black" aria-required="true">
+                                        {{ trans('plugin/cms::common.status') }}
+                                    </label>
+                                    <select class="form-control" name="status">
+                                        @foreach(postStatus() as $status_id => $name)
+                                            <option value="{{ $status_id }}">{{ $name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="{{ trans('plugin/cms::common.thumbnail') }}" class="control-label required text-black" aria-required="true">
+                                        {{ trans('plugin/cms::common.thumbnail') }}
+                                    </label>
+                                    <div class="row" id="wrap-preview">
+                                        <div class="col-md-4">
+                                            <div class="preview-image">
+                                                <img width="100%" src="{{ asset('cms/images/image-default.png') }}" alt="image-default">
+                                                <i class="mdi mdi-close-circle-outline remove-preview"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a href="javascript:void(0)" id="openMedia">{{ trans('plugin/cms::common.choose_img') }}</a>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="{{ trans('plugin/cms::common.tags') }}" class="control-label required text-black" aria-required="true">
+                                        {{ trans('plugin/cms::common.tags') }}
+                                    </label>
+                                    <select class="form-control" name="tag_id">
+                                        <option value="">{{ trans('plugin/cms::common.choose') }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <div class="clearfix"></div>
                     <div class="text-center">
                         <a href="{{ route('posts.index') }}" class="btn btn-secondary">
                             <span class="mdi mdi-arrow-left"></span>
@@ -133,7 +143,7 @@
 @endsection
 @section('js')
     <script type="text/javascript">
-        const ROUTE_IDX = "{!! route('posts.index') !!}"
+        const ROUTE_IDX = "{!! route('posts.index') !!}";
     </script>
     <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
     <script type="text/javascript" src="{{ mix('cms/js/slug.js') }}"></script>
