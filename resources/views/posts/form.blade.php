@@ -57,7 +57,7 @@
                                         {{ trans('plugin/cms::cms.post.short_content') }}
                                         <strong class="text-required text-danger">*</strong>
                                     </label>
-                                    <textarea class="form-control" name="short_content" rows="4" label="{{ trans('plugin/cms::cms.post.short_content') }}" validate="true" validate-pattern="required">{{ old('key', $systemSetting->value ?? null) }}</textarea>
+                                    <textarea class="form-control" name="short_content" rows="4" label="{{ trans('plugin/cms::cms.post.short_content') }}" validate="true" validate-pattern="required">{!! old('short_content', $post->short_content ?? null) !!}</textarea>
                                     <div id="error_short_content"></div>
                                 </div>
                                 <div class="form-group col-md-12">
@@ -65,7 +65,7 @@
                                         {{ trans('plugin/cms::cms.post.content') }}
                                         <strong class="text-required text-danger">*</strong>
                                     </label>
-                                    <textarea id="editor" class="form-control" name="content" rows="4" label="{{ trans('plugin/cms::cms.post.content') }}" validate="true" validate-pattern="required">{{ old('key', $systemSetting->value ?? null) }}</textarea>
+                                    <textarea id="editor" class="form-control" name="content" rows="4" label="{{ trans('plugin/cms::cms.post.content') }}" validate="true" validate-pattern="required">{!! old('content', $post->content ?? null) !!}</textarea>
                                     <div id="error_content"></div>
                                 </div>
                             </div>
@@ -79,7 +79,7 @@
                                     <select class="form-control" name="category_id">
                                         <option value="">{{ trans('plugin/cms::common.choose') }}</option>
                                         @foreach ($categories as $categoryId => $name)
-                                            <option value="{{ $categoryId }}">
+                                            <option value="{{ $categoryId }}" @if(!empty($post) && $post->category_id == $categoryId) selected @endif>
                                                 {{ $name }}
                                             </option>
                                         @endforeach
@@ -90,8 +90,10 @@
                                         {{ trans('plugin/cms::common.status') }}
                                     </label>
                                     <select class="form-control" name="status">
-                                        @foreach(postStatus() as $status_id => $name)
-                                            <option value="{{ $status_id }}">{{ $name }}</option>
+                                        @foreach(postStatus() as $statusId => $name)
+                                            <option value="{{ $statusId }}" @if(!empty($post) && $post->status == $statusId) selected @endif>
+                                                {{ $name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -100,12 +102,24 @@
                                         {{ trans('plugin/cms::common.thumbnail') }}
                                     </label>
                                     <div class="row" id="wrap-preview">
-                                        <div class="col-md-4">
-                                            <div class="preview-image">
-                                                <img width="100%" src="{{ asset('cms/images/image-default.png') }}" alt="image-default">
-                                                <i class="mdi mdi-close-circle-outline remove-preview"></i>
+                                        @if(!empty($post) && $post->medias->isNotEmpty())
+                                            @foreach($post->medias as $media)
+                                                <div class="col-md-4 item-thumbnail">
+                                                    <div class="preview-image">
+                                                        <img width="100%" src="{{ asset('storage' . $media->image_sm) }}" alt="{{ $media->name }}">
+                                                        <i class="mdi mdi-close-circle-outline remove-preview"></i>
+                                                        <input type="hidden" name="media_id[]" value="{{ $media->id }}">
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        @else
+                                            <div class="col-md-4">
+                                                <div class="preview-image">
+                                                    <img width="100%" src="{{ asset('cms/images/image-default.png') }}" alt="image-default">
+                                                    <i class="mdi mdi-close-circle-outline remove-preview"></i>
+                                                </div>
                                             </div>
-                                        </div>
+                                        @endif
                                     </div>
                                     <a href="javascript:void(0)" id="openMedia">{{ trans('plugin/cms::common.choose_img') }}</a>
                                 </div>
@@ -142,11 +156,11 @@
     @include('packages/core::settings.media.include._modal-open-media')
 @endsection
 @section('js')
-    <script type="text/javascript">
-        const ROUTE_IDX = "{!! route('posts.index') !!}";
-    </script>
     <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
     <script type="text/javascript" src="{{ mix('cms/js/slug.js') }}"></script>
     <script type="text/javascript" src="{{ mix('cms/js/create-common.js') }}"></script>
-    <script type="text/javascript" src="{{ mix('cms/js/posts/form.js') }}"></script>
+    <script type="text/javascript">
+        const ROUTE_IDX = "{!! route('posts.index') !!}";
+        CKEDITOR.replace( 'editor' );
+    </script>
 @endsection

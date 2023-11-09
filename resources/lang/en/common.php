@@ -28,4 +28,5 @@ return [
     'image' => 'Image',
     'thumbnail' => 'Thumbnail',
     'choose_img' => 'Choose image',
+    'category' => 'Category',
 ];

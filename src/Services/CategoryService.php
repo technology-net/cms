@@ -38,9 +38,11 @@ class CategoryService
         $parent = Arr::get($inputs, 'parent_id', null);
         $sequence = 0;
         $categories = Category::query()->get();
+
         if ($categories->isNotEmpty()) {
             $sequence = $categories->max('sequence');
         }
+
         if (empty($inputs['sequence'])) {
             $inputs['parent_id'] = $parent;
         }

@@ -17,7 +17,7 @@ class PostService
     {
         return Post::query()
             ->orderBy('sequence')
-            ->with('parent')
+            ->with(['category', 'medias'])
             ->get();
     }
     /**
@@ -26,7 +26,7 @@ class PostService
      */
     public function getById(int $id): Model|Collection|Builder|array|null
     {
-        return $this->findById($id);
+        return $this->findById($id)->load(['category', 'medias']);
     }
 
     /**
@@ -37,13 +37,35 @@ class PostService
     public function createOrUpdateWithPolymorphic($id, array $inputs = array()): Model|Builder
     {
         $mediaIds = Arr::get($inputs, 'media_id', []);
+        $sequence = 0;
+        $posts = Post::query()->get();
+
+        if ($posts->isNotEmpty()) {
+            $sequence = $posts->max('sequence');
+        }
+
+        if (!empty($id)) {
+            $inputs['updated_by'] = userIdLogin();
+        } else {
+            $inputs['created_by'] = userIdLogin();
+            $inputs['sequence'] = !empty($inputs['sequence']) ? $inputs['sequence'] : $sequence + 1;
+        }
         unset($inputs['id'], $inputs['media_id']);
+
         $post =  Post::query()->updateOrCreate(
             ['id' => $id],
             $inputs
         );
 
-        $post->medias()->attach($mediaIds);
+        // Xóa các media cũ không nằm trong danh sách mới
+        if (empty($inputs['sequence'])) {
+            $post->medias()->detach();
+        }
+
+        if (!empty($mediaIds)) {
+            // Thêm mới các media được chọn
+            $post->medias()->attach($mediaIds);
+        }
 
         return $post;
     }

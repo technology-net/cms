@@ -57,3 +57,13 @@ if (!function_exists('postStatus')) {
         ];
     }
 }
+/**
+ * @param $statusId
+ * @return string
+ */
+if (!function_exists('postStatusText')) {
+    function postStatusText($statusId)
+    {
+        return \IBoot\CMS\Models\Post::postStatusText($statusId);
+    }
+}
