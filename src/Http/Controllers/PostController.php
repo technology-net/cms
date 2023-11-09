@@ -4,14 +4,21 @@ namespace IBoot\CMS\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use IBoot\CMS\Models\Post;
+use IBoot\CMS\Services\PostService;
 use IBoot\Core\App\Exceptions\ServerErrorException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Exception;
 
 class PostController extends Controller
 {
+    private PostService $post;
+
+    public function __construct(PostService $post) {
+        $this->post = $post;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -43,18 +50,17 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request->all());
-//        DB::beginTransaction();
-//        try {
-//            $this->category->createOrUpdateCategories($id, $request->all());
-//            DB::commit();
-//
-//            return responseSuccess(null, trans('plugin/cms::messages.save_success'));
-//        } catch (Exception $e) {
-//            DB::rollback();
-//            Log::error($e->getMessage(), ['file' => __FILE__, 'line' => __LINE__]);
-//            throw new ServerErrorException(null, trans('plugin/cms::messages.action_error'));
-//        }
+        DB::beginTransaction();
+        try {
+            $this->post->createOrUpdateWithPolymorphic($id, $request->all());
+            DB::commit();
+
+            return responseSuccess(null, trans('plugin/cms::messages.save_success'));
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error($e->getMessage(), ['file' => __FILE__, 'line' => __LINE__]);
+            throw new ServerErrorException(null, trans('plugin/cms::messages.action_error'));
+        }
     }
 
     /**

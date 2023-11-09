@@ -2,9 +2,17 @@
 
 namespace IBoot\CMS\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use IBoot\Core\App\Models\Media;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Post extends BaseModel
 {
-    use HasFactory;
+    protected $guarded = ['id'];
+    /**
+     * @return MorphToMany
+     */
+    public function medias(): MorphToMany
+    {
+        return $this->morphToMany(Media::class, 'media_able');
+    }
 }
