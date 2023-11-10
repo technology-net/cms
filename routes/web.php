@@ -12,4 +12,7 @@ Route::namespace($namespace)->prefix($prefix)->middleware(['web', 'auth'])->grou
     Route::resource('posts', 'PostController')->except(['show', 'store']);
     Route::post('posts/{id}/editable', 'PostController@editable')->name('posts.editable');
     Route::post('posts/delete-all', 'PostController@deleteAll')->name('posts.deleteAll');
+    Route::resource('pages', 'PageController')->except(['show', 'store']);
+    Route::post('pages/{id}/editable', 'PageController@editable')->name('pages.editable');
+    Route::post('pages/delete-all', 'PageController@deleteAll')->name('pages.deleteAll');
 });

@@ -9,7 +9,8 @@ return [
     'post' => [
         'screen' => 'Posts',
         'category' => 'Category',
-        'short_content' => 'Short Content',
-        'content' => 'Content',
+    ],
+    'page' => [
+        'screen' => 'Pages',
     ],
 ];

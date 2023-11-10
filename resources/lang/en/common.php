@@ -29,4 +29,7 @@ return [
     'thumbnail' => 'Thumbnail',
     'choose_img' => 'Choose image',
     'category' => 'Category',
+    'short_content' => 'Short Content',
+    'content' => 'Content',
+    'thumbnail_note' => '(Click on the image to set as default thumbnail).',
 ];
