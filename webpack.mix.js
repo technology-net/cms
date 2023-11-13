@@ -6,5 +6,6 @@ const resourcesPathJs = dir + '/resources/js/';
 const publicPath = 'public/cms/';
 
 mix
-  .js(resourcesPathJs + 'categories/form.js', publicPath + 'js/categories/form.js').version()
-  .js(resourcesPathJs + 'slug.js', publicPath + 'js/slug.js').version();
+  .js(resourcesPathJs + 'create-common.js', publicPath + 'js/create-common.js').version()
+  .js(resourcesPathJs + 'slug.js', publicPath + 'js/slug.js').version()
+  .copy(dir + '/resources/images', publicPath + '/images');

@@ -2,22 +2,22 @@
 
 namespace IBoot\CMS\Services;
 
-use IBoot\CMS\Models\Category;
+use IBoot\CMS\Models\Post;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
-class CategoryService
+class PostService
 {
     /**
      * @return Collection|array
      */
     public function getLists(): Collection|array
     {
-        return Category::query()
+        return Post::query()
             ->orderBy('sequence')
-            ->with('parent')
+            ->with(['category', 'medias'])
             ->get();
     }
     /**
@@ -26,25 +26,22 @@ class CategoryService
      */
     public function getById(int $id): Model|Collection|Builder|array|null
     {
-        return $this->findById($id);
+        return $this->findById($id)->load(['category', 'medias']);
     }
+
     /**
      * @param $id
      * @param array $inputs
      * @return Model|Builder
      */
-    public function createOrUpdateCategories($id, array $inputs = array()): Model|Builder
+    public function createOrUpdateWithPolymorphic($id, array $inputs = array()): Model|Builder
     {
-        $parent = Arr::get($inputs, 'parent_id', null);
+        $mediaIds = Arr::get($inputs, 'media_id', []);
         $sequence = 0;
-        $categories = Category::query()->get();
+        $posts = Post::query()->get();
 
-        if ($categories->isNotEmpty()) {
-            $sequence = $categories->max('sequence');
-        }
-
-        if (empty($inputs['sequence'])) {
-            $inputs['parent_id'] = $parent;
+        if ($posts->isNotEmpty()) {
+            $sequence = $posts->max('sequence');
         }
 
         if (!empty($id)) {
@@ -53,12 +50,24 @@ class CategoryService
             $inputs['created_by'] = userIdLogin();
             $inputs['sequence'] = !empty($inputs['sequence']) ? $inputs['sequence'] : $sequence + 1;
         }
-        unset($inputs['id']);
+        unset($inputs['id'], $inputs['media_id']);
 
-        return Category::query()->updateOrCreate(
+        $post =  Post::query()->updateOrCreate(
             ['id' => $id],
             $inputs
         );
+
+        // Xóa các media cũ không nằm trong danh sách mới
+        if (empty($inputs['sequence'])) {
+            $post->medias()->detach();
+        }
+
+        if (!empty($mediaIds)) {
+            // Thêm mới các media được chọn
+            $post->medias()->attach($mediaIds);
+        }
+
+        return $post;
     }
 
     /**
@@ -67,7 +76,7 @@ class CategoryService
      */
     public function deleteById($id): mixed
     {
-        return Category::query()->where('id', $id)->delete();
+        return Post::query()->where('id', $id)->delete();
     }
 
     /**
@@ -76,11 +85,11 @@ class CategoryService
      */
     public function deleteAllById($ids): mixed
     {
-        return Category::deleteByIds($ids);
+        return Post::deleteByIds($ids);
     }
 
     private function findById($id): Model|Collection|Builder|array|null
     {
-        return Category::query()->findOrFail($id);
+        return Post::query()->findOrFail($id);
     }
 }
