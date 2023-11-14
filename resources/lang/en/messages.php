@@ -9,8 +9,8 @@ return [
         'not_found' => 'Record not found.',
         'server_error' => 'Server error. Please check back later.',
     ],
-    'save_success' => 'The data has been save successfully.',
+    'save_success' => 'Your data has been save.',
     'action_error' => 'System error occurred. Please try again later.',
-    'delete_success' => 'The data has been deleted successfully.',
+    'delete_success' => 'Your data has been deleted.',
     'delete_confirm' => 'Are you sure you want to delete record ?',
 ];

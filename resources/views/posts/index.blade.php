@@ -2,10 +2,6 @@
 @section('title')
     @lang('plugin/cms::cms.post.screen')
 @stop
-@section('css')
-    <link href="{{ mix('core/css/user.css') }}" rel="stylesheet"/>
-@endsection
-
 @section('content')
     @include('packages/core::partial.breadcrumb', [
         'breadcrumbs' => [

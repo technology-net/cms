@@ -1,5 +1,7 @@
 <?php
 
+use IBoot\Core\App\Models\User;
+
 /**
  * @return int|string|null
  */
@@ -16,7 +18,10 @@ if (!function_exists('userIdLogin')) {
 if (!function_exists('getNameUser')) {
     function getNameUser($userId)
     {
-        return !empty($userId) ? \IBoot\Core\App\Models\User::query()->find($userId)->name : '';
+        if (!empty($userId)) {
+            $user = User::query()->find($userId);
+        }
+        return !empty($user) ? $user->name : '';
     }
 }
 if (!function_exists('listCategories')) {

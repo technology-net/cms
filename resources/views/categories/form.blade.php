@@ -38,6 +38,7 @@
                                 <strong class="text-required text-danger">*</strong>
                             </label>
                             <input class="form-control input-in" autocomplete="off" label="{{ trans('plugin/cms::common.name') }}" validate="true"
+                                   placeholder="{{ trans('plugin/cms::common.name') }}"
                                    validate-pattern="required" name="name" type="text" value="{{ old('name', $category->name ?? null) }}">
                             <div id="error_name"></div>
                         </div>
@@ -47,6 +48,7 @@
                                 <strong class="text-required text-danger">*</strong>
                             </label>
                             <input class="form-control input-out" autocomplete="off" label="{{ trans('plugin/cms::common.slug') }}" validate="true"
+                                   placeholder="{{ trans('plugin/cms::common.slug') }}"
                                    validate-pattern="required" name="slug" type="text" value="{{ old('slug', $category->slug ?? null) }}">
                             <div id="error_slug"></div>
                         </div>
@@ -71,15 +73,15 @@
                     </div>
                     <div class="clearfix"></div>
                     <div class="text-center">
-                        <a href="{{ route('categories.index') }}" class="btn btn-secondary">
-                            <span class="mdi mdi-arrow-left"></span>
+                        <a href="{{ route('categories.index') }}" class="btn btn-secondary btn-sm">
+                            <i class="fas fa-long-arrow-alt-left"></i>
                             {{ trans('packages/core::common.back') }}
                         </a>
-                        <button type="submit" name="submit" value="submit" class="btn btn-success">
+                        <button type="submit" name="submit" value="submit" class="btn btn-primary btn-sm">
                             @if(!empty($category->id))
-                                <span class="mdi mdi-sync"></span>
+                                <i class="fas fa-sync-alt"></i>
                             @else
-                                <span class="mdi mdi-plus"></span>
+                                <i class="fas fa-plus"></i>
                             @endif
                                 {{ $label }}
                         </button>

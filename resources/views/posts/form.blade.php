@@ -108,7 +108,7 @@
                                                 <div class="col-md-4 item-thumbnail">
                                                     <div class="preview-image">
                                                         <img width="100%" src="{{ asset('storage' . $media->image_sm) }}" alt="{{ $media->name }}">
-                                                        <i class="mdi mdi-close-circle-outline remove-preview"></i>
+                                                        <i class="far fa-times-circle remove-preview"></i>
                                                         <input type="hidden" name="media_id[]" value="{{ $media->id }}">
                                                     </div>
                                                 </div>
@@ -117,7 +117,7 @@
                                             <div class="col-md-4">
                                                 <div class="preview-image">
                                                     <img width="100%" src="{{ asset('cms/images/image-default.png') }}" alt="image-default">
-                                                    <i class="mdi mdi-close-circle-outline remove-preview"></i>
+                                                    <i class="far fa-times-circle remove-preview"></i>
                                                 </div>
                                             </div>
                                         @endif
@@ -137,15 +137,15 @@
                     </div>
                     <div class="clearfix"></div>
                     <div class="text-center">
-                        <a href="{{ route('posts.index') }}" class="btn btn-secondary">
-                            <span class="mdi mdi-arrow-left"></span>
+                        <a href="{{ route('posts.index') }}" class="btn btn-secondary btn-sm">
+                            <i class="fas fa-long-arrow-alt-left"></i>
                             {{ trans('packages/core::common.back') }}
                         </a>
-                        <button type="submit" name="submit" value="submit" class="btn btn-success">
+                        <button type="submit" name="submit" value="submit" class="btn btn-primary btn-sm">
                             @if(!empty($post->id))
-                                <span class="mdi mdi-sync"></span>
+                                <i class="fas fa-sync-alt"></i>
                             @else
-                                <span class="mdi mdi-plus"></span>
+                                <i class="fas fa-plus"></i>
                             @endif
                                 {{ $label }}
                         </button>
@@ -154,7 +154,7 @@
             </form>
         </div>
     </div>
-    @include('packages/core::settings.media.include._modal-open-media')
+    @include('packages/core::medias.include._modal-open-media')
 @endsection
 @section('js')
     <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
