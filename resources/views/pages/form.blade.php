@@ -133,8 +133,8 @@
 @endsection
 @section('js')
     <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
-    <script type="text/javascript" src="{{ mix('cms/js/slug.js') }}"></script>
-    <script type="text/javascript" src="{{ mix('cms/js/create-common.js') }}"></script>
+    <script type="text/javascript" src="{{ mix('cms/js/slug.mix.js') }}"></script>
+    <script type="text/javascript" src="{{ mix('cms/js/create-common.mix.js') }}"></script>
     <script type="text/javascript">
         const ROUTE_IDX = "{!! route('pages.index') !!}";
         CKEDITOR.replace( 'editor' );
