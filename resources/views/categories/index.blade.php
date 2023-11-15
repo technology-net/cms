@@ -2,6 +2,9 @@
 @section('title')
     @lang('plugin/cms::cms.category.screen')
 @stop
+@section('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+@stop
 @section('content')
     @include('packages/core::partial.breadcrumb', [
         'breadcrumbs' => [
@@ -21,6 +24,5 @@
     </div>
 @endsection
 @section('js')
-    <script type="text/javascript">
-    </script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 @endsection

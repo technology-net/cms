@@ -1,5 +1,5 @@
-<div class="table-responsive table-has-actions table-has-filter ">
-    <div class="form-inline">
+<div class="card">
+    <div class="card-header">
         <a href="{{ route('categories.create') }}" class="btn btn-success btn-sm">
             <i class="fas fa-plus"></i>
             {{ trans('packages/core::common.create') }}
@@ -10,54 +10,56 @@
         </button>
     </div>
 
-    <table class="mt-3 table table-bordered table-hover table-striped bg-white">
-        <thead>
-        <tr>
-            <th width="3%" class="text-center">
-                <label class="user-checkbox-label">
-                    <input class="input-check-all" type="checkbox">
-                </label>
-            </th>
-            <th width="25%">{{ trans('plugin/cms::common.name') }}</th>
-            <th width="25%">{{ trans('plugin/cms::common.slug') }}</th>
-            <th width="7%">{{ trans('plugin/cms::common.sequence') }}</th>
-            <th width="20%">{{ trans('plugin/cms::cms.category.parent') }}</th>
-            <th width="10%">{{ trans('plugin/cms::common.created_by') }}</th>
-            <th width="10%" class="text-center">{{ trans('plugin/cms::common.operations') }}</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach($categories as $item)
+    <div class="card-body">
+        <table class="mt-3 table table-bordered table-hover table-striped" id="dataTable">
+            <thead>
             <tr>
-                <td class="text-center">
+                <th width="3%" class="text-center">
                     <label class="user-checkbox-label">
-                        <input class="checkboxes" type="checkbox" value="{{ $item->id }}">
+                        <input class="input-check-all" type="checkbox">
                     </label>
-                </td>
-                <td>{{ $item->name }}</td>
-                <td>{{ $item->slug }}</td>
-                <td>
-                    <input class="form-control text-right editable" type="number" min="1" value="{{ $item->sequence }}"
-                           name="sequence" data-url="{{ route('categories.editable', $item->id) }}"
-                           data-id="{{ $item->id }}"
-                           validate="true" validate-pattern="required"
-                    >
-                    <div id="error_sequence-{{ $item->id }}" ></div>
-                </td>
-                <td>
-                    {{ !empty($item->parent) ? $item->parent->name : '-' }}
-                </td>
-                <td class="text-left">{{ getNameUser($item->created_by) }}</td>
-                <td class="text-center">
-                    <a class="btn btn-sm bg-info" href="{{ route('categories.edit', $item->id) }}">
-                        <i class="fas fa-pencil-alt"></i>
-                    </a>
-                    <button type="button" class="btn btn-sm bg-danger btn-delete" data-url="{{ route('categories.destroy', $item->id) }}">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </td>
+                </th>
+                <th width="25%">{{ trans('plugin/cms::common.name') }}</th>
+                <th width="25%">{{ trans('plugin/cms::common.slug') }}</th>
+                <th width="7%">{{ trans('plugin/cms::common.sequence') }}</th>
+                <th width="20%">{{ trans('plugin/cms::cms.category.parent') }}</th>
+                <th width="10%">{{ trans('plugin/cms::common.created_by') }}</th>
+                <th width="10%" class="text-center">{{ trans('plugin/cms::common.operations') }}</th>
             </tr>
-        @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            @foreach($categories as $item)
+                <tr>
+                    <td class="text-center">
+                        <label class="user-checkbox-label">
+                            <input class="checkboxes" type="checkbox" value="{{ $item->id }}">
+                        </label>
+                    </td>
+                    <td>{{ $item->name }}</td>
+                    <td>{{ $item->slug }}</td>
+                    <td>
+                        <input class="form-control text-right editable" type="number" min="1" value="{{ $item->sequence }}"
+                               name="sequence" data-url="{{ route('categories.editable', $item->id) }}"
+                               data-id="{{ $item->id }}"
+                               validate="true" validate-pattern="required"
+                        >
+                        <div id="error_sequence-{{ $item->id }}" ></div>
+                    </td>
+                    <td>
+                        {{ !empty($item->parent) ? $item->parent->name : '-' }}
+                    </td>
+                    <td class="text-left">{{ getNameUser($item->created_by) }}</td>
+                    <td class="text-center">
+                        <a class="btn btn-sm bg-info" href="{{ route('categories.edit', $item->id) }}">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <button type="button" class="btn btn-sm bg-danger btn-delete" data-url="{{ route('categories.destroy', $item->id) }}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
 </div>

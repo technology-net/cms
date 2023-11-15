@@ -1,5 +1,5 @@
-<div class="table-responsive table-has-actions table-has-filter ">
-    <div class="form-inline">
+<div class="card">
+    <div class="card-header">
         <a href="{{ route('pages.create') }}" class="btn btn-success btn-sm">
             <i class="fas fa-plus"></i>
             {{ trans('packages/core::common.create') }}
@@ -10,7 +10,8 @@
         </button>
     </div>
 
-    <table class="mt-3 table table-bordered table-hover table-striped bg-white">
+    <div class="card-body">
+        <table class="mt-3 table table-bordered table-hover table-striped" id="dataTable">
         <thead>
             <tr role="row">
                 <th width="3%" class="text-center">
@@ -68,4 +69,5 @@
             @endforeach
         </tbody>
     </table>
+    </div>
 </div>
