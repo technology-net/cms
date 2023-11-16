@@ -136,20 +136,6 @@
                         </div>
                     </div>
                     <div class="clearfix"></div>
-                    <div class="text-center">
-                        <a href="{{ route('posts.index') }}" class="btn btn-secondary btn-sm">
-                            <i class="fas fa-long-arrow-alt-left"></i>
-                            {{ trans('packages/core::common.back') }}
-                        </a>
-                        <button type="submit" name="submit" value="submit" class="btn btn-primary btn-sm">
-                            @if(!empty($post->id))
-                                <i class="fas fa-sync-alt"></i>
-                            @else
-                                <i class="fas fa-plus"></i>
-                            @endif
-                                {{ $label }}
-                        </button>
-                    </div>
                 </div>
             </form>
         </div>
