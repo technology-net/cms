@@ -19,7 +19,6 @@ return [
     'updated_at' => 'Updated At',
     'note' => ':field :field2 for the system.',
     'choose' => '-- Please choose --',
-    'root' => 'Root',
     'status' => 'Status',
     'tags' => 'Tags',
     'draft' => 'Draft',

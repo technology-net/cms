@@ -28,12 +28,12 @@ class FormPageRequest extends FormRequest
             'title' => [
                 'required',
                 'max:255',
-                Rule::unique('posts')->ignore(request('id')),
+                Rule::unique('pages')->ignore(request('id')),
             ],
             'slug' => [
                 'required',
                 'max:255',
-                Rule::unique('posts')->ignore(request('id')),
+                Rule::unique('pages')->ignore(request('id')),
             ],
         ];
     }
