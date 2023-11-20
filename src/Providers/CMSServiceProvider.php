@@ -25,5 +25,8 @@ class CMSServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'plugin/cms');
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
         $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'plugin/cms');
+        $this->commands([
+            \IBoot\CMS\Console\Commands\SetupEnvironmentCommand::class
+        ]);
     }
 }

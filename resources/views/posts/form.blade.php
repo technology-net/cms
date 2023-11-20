@@ -136,6 +136,20 @@
                         </div>
                     </div>
                     <div class="clearfix"></div>
+                    <div class="text-center">
+                        <a href="{{ route('posts.index') }}" class="btn btn-secondary btn-sm">
+                            <span class="mdi mdi-arrow-left"></span>
+                            {{ trans('packages/core::common.back') }}
+                        </a>
+                        <button type="submit" name="submit" value="submit" class="btn btn-primary btn-sm">
+                            @if(!empty($post->id))
+                                <span class="mdi mdi-sync"></span>
+                            @else
+                                <span class="mdi mdi-plus"></span>
+                            @endif
+                            {{ $label }}
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
