@@ -4,6 +4,7 @@ namespace IBoot\CMS\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use IBoot\CMS\Http\Requests\FormCategoryRequest;
+use IBoot\CMS\Models\Category;
 use IBoot\CMS\Services\CategoryService;
 use IBoot\Core\App\Exceptions\ServerErrorException;
 use Illuminate\Http\Request;
@@ -27,6 +28,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Category::class);
         $categories = listCategories();
 
         return view('plugin/cms::categories.index', compact('categories'));
@@ -37,6 +39,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Category::class);
         $categories = getCategories(listCategories());
 
         return view('plugin/cms::categories.form', compact('categories'));
@@ -48,6 +51,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('edit', Category::class);
         $categories = getCategories(listCategories());
         $category = $this->category->getById($id);
 
@@ -81,6 +85,7 @@ class CategoryController extends Controller
     {
         DB::beginTransaction();
         try {
+            $this->authorize('delete', Category::class);
             $this->category->deleteById($id);
             DB::commit();
 
