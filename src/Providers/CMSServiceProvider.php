@@ -3,6 +3,8 @@
 namespace IBoot\CMS\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Artisan;
 
 class CMSServiceProvider extends ServiceProvider
 {
@@ -25,8 +27,9 @@ class CMSServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'plugin/cms');
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
         $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'plugin/cms');
-        $this->commands([
-            \IBoot\CMS\Console\Commands\SetupEnvironmentCommand::class
-        ]);
+
+        if (!Schema::hasTable('categories') || !Schema::hasTable('posts') || !Schema::hasTable('pages')) {
+            Artisan::call('migrate');
+        }
     }
 }
