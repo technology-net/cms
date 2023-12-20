@@ -29,6 +29,7 @@ class PageController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Page::class);
         $pages = $this->page->getLists();
 
         return view('plugin/cms::pages.index', compact('pages'));
@@ -39,6 +40,7 @@ class PageController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Page::class);
         return view('plugin/cms::pages.form');
     }
 
@@ -47,6 +49,7 @@ class PageController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('edit', Page::class);
         $page = $this->page->getById($id);
 
         return view('plugin/cms::pages.form', compact('page'));
@@ -79,6 +82,7 @@ class PageController extends Controller
     {
         DB::beginTransaction();
         try {
+            $this->authorize('delete', Page::class);
             $this->page->deleteById($id);
             DB::commit();
 

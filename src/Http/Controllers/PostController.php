@@ -25,6 +25,7 @@ class PostController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Post::class);
         $posts = $this->post->getLists();
 
         return view('plugin/cms::posts.index', compact('posts'));
@@ -35,6 +36,7 @@ class PostController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Post::class);
         $categories = getCategories(listCategories());
 
         return view('plugin/cms::posts.form', compact('categories'));
@@ -45,6 +47,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('edit', Post::class);
         $categories = getCategories(listCategories());
         $post = $this->post->getById($id);
 
@@ -79,6 +82,7 @@ class PostController extends Controller
     {
         DB::beginTransaction();
         try {
+            $this->authorize('delete', Post::class);
             $this->post->deleteById($id);
             DB::commit();
 
