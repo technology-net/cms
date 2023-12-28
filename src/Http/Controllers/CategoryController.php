@@ -4,9 +4,9 @@ namespace IBoot\CMS\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use IBoot\CMS\Http\Requests\FormCategoryRequest;
-use IBoot\CMS\Models\Category;
 use IBoot\CMS\Services\CategoryService;
 use IBoot\Core\App\Exceptions\ServerErrorException;
+use IBoot\Core\App\Http\Middleware\CheckPermission;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -22,13 +22,16 @@ class CategoryController extends Controller
      */
     public function __construct(CategoryService $category) {
         $this->category = $category;
+        $this->middleware(CheckPermission::using('view categories'))->only('index');
+        $this->middleware(CheckPermission::using('create categories'))->only('create');
+        $this->middleware(CheckPermission::using('edit categories'))->only('edit');
+        $this->middleware(CheckPermission::using('delete categories'))->only('destroy');
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $this->authorize('viewAny', Category::class);
         $categories = listCategories();
 
         return view('plugin/cms::categories.index', compact('categories'));
@@ -39,7 +42,6 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $this->authorize('create', Category::class);
         $categories = getCategories(listCategories());
 
         return view('plugin/cms::categories.form', compact('categories'));
@@ -51,7 +53,6 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('edit', Category::class);
         $categories = getCategories(listCategories());
         $category = $this->category->getById($id);
 
@@ -85,7 +86,6 @@ class CategoryController extends Controller
     {
         DB::beginTransaction();
         try {
-            $this->authorize('delete', Category::class);
             $this->category->deleteById($id);
             DB::commit();
 

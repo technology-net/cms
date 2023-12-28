@@ -4,9 +4,9 @@ namespace IBoot\CMS\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use IBoot\CMS\Http\Requests\FormPageRequest;
-use IBoot\CMS\Models\Page;
 use IBoot\CMS\Services\PageService;
 use IBoot\Core\App\Exceptions\ServerErrorException;
+use IBoot\Core\App\Http\Middleware\CheckPermission;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,6 +22,10 @@ class PageController extends Controller
      */
     public function __construct(PageService $page) {
         $this->page = $page;
+        $this->middleware(CheckPermission::using('view pages'))->only('index');
+        $this->middleware(CheckPermission::using('create pages'))->only('create');
+        $this->middleware(CheckPermission::using('edit pages'))->only('edit');
+        $this->middleware(CheckPermission::using('delete pages'))->only('destroy');
     }
 
     /**
@@ -29,7 +33,6 @@ class PageController extends Controller
      */
     public function index()
     {
-        $this->authorize('viewAny', Page::class);
         $pages = $this->page->getLists();
 
         return view('plugin/cms::pages.index', compact('pages'));
@@ -40,7 +43,6 @@ class PageController extends Controller
      */
     public function create()
     {
-        $this->authorize('create', Page::class);
         return view('plugin/cms::pages.form');
     }
 
@@ -49,7 +51,6 @@ class PageController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('edit', Page::class);
         $page = $this->page->getById($id);
 
         return view('plugin/cms::pages.form', compact('page'));
@@ -82,7 +83,6 @@ class PageController extends Controller
     {
         DB::beginTransaction();
         try {
-            $this->authorize('delete', Page::class);
             $this->page->deleteById($id);
             DB::commit();
 

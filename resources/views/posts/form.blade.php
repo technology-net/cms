@@ -107,7 +107,7 @@
                                             @foreach($post->medias as $media)
                                                 <div class="col-md-4 item-thumbnail">
                                                     <div class="preview-image">
-                                                        <img width="100%" src="{{ asset('storage' . $media->image_sm) }}" alt="{{ $media->name }}">
+                                                        <img width="100%" src="{{ getPathImage($media->image_sm) }}" alt="{{ $media->name }}">
                                                         <i class="far fa-times-circle remove-preview"></i>
                                                         <input type="hidden" name="media_id[]" value="{{ $media->id }}">
                                                     </div>

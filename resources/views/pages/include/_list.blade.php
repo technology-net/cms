@@ -46,10 +46,10 @@
                     @endcan
                     <td class="text-left">
                         @php
-                            $thumbnail = $item->medias->isNotEmpty() ? 'storage' . $item->medias->first()->image_sm : 'cms/images/image-default.png';
+                            $thumbnail = $item->medias->isNotEmpty() ? getPathImage($item->medias->first()->image_sm) : asset('cms/images/image-default.png');
                             $thumbnail_alt = $item->medias->isNotEmpty() ? $item->medias->first()->name : 'image-default';
                         @endphp
-                        <img src="{{ asset($thumbnail) }}" alt="{{ $thumbnail_alt }}">
+                        <img src="{{ $thumbnail }}" alt="{{ $thumbnail_alt }}">
                     </td>
                     <td class="text-left">{{ $item->title }}</td>
                     <td class="text-left">{!! $item->slug !!}</td>
