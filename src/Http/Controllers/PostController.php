@@ -4,11 +4,11 @@ namespace IBoot\CMS\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use IBoot\CMS\Http\Requests\FormPostRequest;
+use IBoot\Core\App\Http\Middleware\CheckPermission;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use IBoot\CMS\Models\Post;
 use IBoot\CMS\Services\PostService;
 use IBoot\Core\App\Exceptions\ServerErrorException;
 use Exception;
@@ -19,13 +19,16 @@ class PostController extends Controller
 
     public function __construct(PostService $post) {
         $this->post = $post;
+        $this->middleware(CheckPermission::using('view posts'))->only('index');
+        $this->middleware(CheckPermission::using('create posts'))->only('create');
+        $this->middleware(CheckPermission::using('edit posts'))->only('edit');
+        $this->middleware(CheckPermission::using('delete posts'))->only('destroy');
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $this->authorize('viewAny', Post::class);
         $posts = $this->post->getLists();
 
         return view('plugin/cms::posts.index', compact('posts'));
@@ -36,7 +39,6 @@ class PostController extends Controller
      */
     public function create()
     {
-        $this->authorize('create', Post::class);
         $categories = getCategories(listCategories());
 
         return view('plugin/cms::posts.form', compact('categories'));
@@ -47,7 +49,6 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('edit', Post::class);
         $categories = getCategories(listCategories());
         $post = $this->post->getById($id);
 
@@ -82,7 +83,6 @@ class PostController extends Controller
     {
         DB::beginTransaction();
         try {
-            $this->authorize('delete', Post::class);
             $this->post->deleteById($id);
             DB::commit();
 
