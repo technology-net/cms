@@ -2,9 +2,11 @@
 
 namespace IBoot\CMS\Providers;
 
+use IBoot\Core\App\Models\Plugin;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Artisan;
+use Symfony\Component\Process\Process;
 
 class CMSServiceProvider extends ServiceProvider
 {
@@ -30,6 +32,14 @@ class CMSServiceProvider extends ServiceProvider
 
         if (!Schema::hasTable('categories') || !Schema::hasTable('posts') || !Schema::hasTable('pages')) {
             Artisan::call('migrate');
+            Artisan::call('optimize');
+            $process = new Process(['composer', 'dump-autoload']);
+            $process->run();
+            exec('npm run dev');
         }
+
+        $this->publishes([
+            __DIR__ . '/../../../cms' => base_path(Plugin::PACKAGE_CMS),
+        ], 'cms');
     }
 }
